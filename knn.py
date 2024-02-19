@@ -1,15 +1,19 @@
 import pandas as pd #importamos pandas para leer el dataset
 
 #funcion para calcular la distancia euclidiana
-def DistanciaEuclidiana(x1, y1, x2, y2):
+def DistanciaEuclidiana4D(w1, x1, y1, z1, w2, x2, y2, z2):
+    return ((w2 - w1)**2 + (x2 - x1)**2 + (y2 - y1)**2 + (z2 - z1)**2)**0.5
+def DistanciaEuclidiana3D(x1, y1, z1, x2, y2, z2):
+    return ((x2 - x1)**2 + (y2 - y1)**2 + (z2 - z1)**2)**0.5
+def DistanciaEuclidiana2D(x1, y1, x2, y2):
     return ((x2 - x1)**2 + (y2 - y1)**2)**0.5
-
 #leemos el dataset
 df = pd.read_csv('iris.csv')
 
 #ingresamos los datos que queremos clasificar
-Input = [5.2, 3.1]
-
+Input2D = [5.2, 3.1]
+Input3D = [5.2, 3.1, 4]
+Input4D = [5.2, 3.1, 4, 2]
 #calculamos la distancia euclidiana de los datos ingresados con los datos del dataset
 distances = [] #en esta lista guardamos las distancias y la especie en forma de diccionario
 
@@ -18,7 +22,7 @@ for index, row in df.iterrows():
     #recolectamos la informacion de la fila
     row_data = row.iloc[1:].values
     #calculamos la distancia euclidiana, en este caso trabajamos sobre la informacion de las columnas 1 y 2 agregadas en row_data
-    distance = DistanciaEuclidiana(Input[0], Input[1], row_data[0], row_data[1])
+    distance = DistanciaEuclidiana2D(Input2D[0], Input2D[1], row_data[0], row_data[1])
     #guardamos la distancia y la especie en un diccionario
     distanceItem = {
         'distance': distance,
@@ -39,6 +43,7 @@ for i in range(len(distances)):
     specie = distances[i]['species']
     #agregamos la especie a la lista species
     species.append(specie)
+    print(species)
     #contamos cuantas veces se repite la especie en la lista species (esto era para depurar)
         #count = species.count(specie)
         #print(f'{specie} aparece {count} veces')
